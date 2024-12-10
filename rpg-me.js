@@ -37,7 +37,8 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
       name: "",
       fire: false,
       walking: false,
-      hat: "ninja",
+      hat: "none",
+      size: 400,
     };
     this._applySeedToSettings();
   }
@@ -100,11 +101,14 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
           background-color: black;
           color: white;
           border-radius: 4px;
+          margin-top: 20px;
         }
         button.reset-button {
           background-color: black;
           color: white;
           border-radius: 4px;
+          margin-top: 20px;
+          margin-left: 4px;
         }
       `,
     ];
@@ -120,7 +124,7 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
             @input="${(e) => this._updateSetting('name', e.target.value)}"
           ></wired-input>
   
-          <label for="hairCheckbox">Hair:</label>
+          <label for="hairCheckbox">Checkboxes:</label>
           <wired-checkbox id="hairCheckbox" ?checked="${this.characterSettings.base === 1}"
             @change="${(e) =>
               this._updateSetting('base', e.target.checked ? 1 : 0)}"
@@ -184,8 +188,13 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
           ></wired-slider>
 
           <label for="hatColorSlider">Hat Color:</label>
-          <wired-slider id="hatColorSlider" value="${this.characterSettings.hatColor}" min="0 max="9
+          <wired-slider id="hatColorSlider" value="${this.characterSettings.hatColor}" min="0" max="9"
             @change="${(e) => this._updateSetting('hatColor', parseInt(e.detail.value))}"
+          ></wired-slider>
+
+          <label for="hair">Hair Color (Hair checkbox must be selected):</label>
+          <wired-slider id="hair" value="${this.characterSettings.hair}" min="0" max="9"
+            @change="${(e) => this._updateSetting('hair', parseInt(e.detail.value))}"
           ></wired-slider>
         </div>
       </div>
@@ -225,7 +234,8 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
       hatColor: randomValue(0, 360),
       fire: Math.random() < 0.5,
       walking: Math.random() < 0.5,
-      hat: "ninja",
+      hat: "none",
+      size: 400,
     };
     this._generateSeed();
 
@@ -249,7 +259,8 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
       name: "",
       fire: false,
       walking: false,
-      hat: "ninja",
+      hat: "none",
+      size: 400,
     };
   
     this._applySeedToSettings();
