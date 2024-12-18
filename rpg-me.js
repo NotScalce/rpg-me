@@ -156,7 +156,6 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
             hatColor="${this.characterSettings.hatColor}"
             .fire="${this.characterSettings.fire}"
             .walking="${this.characterSettings.walking}"
-            style=" --hat-color: hsl(${this.characterSettings.hatColor}, 100%, 50%);"
             hat="${this.characterSettings.hat}"
           ></rpg-character>
         </div>
@@ -194,6 +193,7 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
 
           <label for="hair">Hair Color (Hair checkbox must be selected):</label>
           <wired-slider id="hair" value="${this.characterSettings.hair}" min="0" max="9"
+            ?disabled="${this.characterSettings.base !== 1}" 
             @change="${(e) => this._updateSetting('hair', parseInt(e.detail.value))}"
           ></wired-slider>
         </div>
@@ -231,7 +231,7 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
       shirt: randomValue(0, 9),
       skin: randomValue(0, 9),
       glasses: Math.random() < 0.5,
-      hatColor: randomValue(0, 360),
+      hatColor: randomValue(0, 9),
       fire: Math.random() < 0.5,
       walking: Math.random() < 0.5,
       hat: "none",
@@ -240,6 +240,14 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
     this._generateSeed();
 
     this._applySeedToSettings();
+
+    const sliders = this.shadowRoot.querySelectorAll('wired-slider');
+    sliders.forEach(slider => {
+      const settingKey = slider.id.replace('Slider', '').toLowerCase(); // e.g., faceSlider -> face
+      if (this.characterSettings.hasOwnProperty(settingKey)) {
+        slider.value = this.characterSettings[settingKey];
+      }
+   });
   
     this.requestUpdate();
   }
@@ -264,6 +272,16 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
     };
   
     this._applySeedToSettings();
+
+    const sliders = this.shadowRoot.querySelectorAll('wired-slider');
+    sliders.forEach(slider => {
+      const settingKey = slider.id.replace('Slider', '').toLowerCase(); // e.g., faceSlider -> face
+      if (this.characterSettings.hasOwnProperty(settingKey)) {
+        slider.value = this.characterSettings[settingKey];
+      }
+    });
+  
+    this.requestUpdate();
   
     this.requestUpdate();
   }
